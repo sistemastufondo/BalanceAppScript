@@ -1,368 +1,1111 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
-    <style>
-        /* CONFIGURACIÓN BASE */
-        :root {
-            --primary: #135bec;
-            --bg-light: #f6f6f8;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        /* HEADER */
-        header {
-            padding: 24px 32px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            background: var(--primary);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-text {
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            border: 2px solid white;
-            box-shadow: 0 0 0 1px var(--border);
-        }
-
-        /* MAIN CONTENT */
-        main {
-            padding: 32px;
-        }
-
-        .welcome-section {
-            margin-bottom: 32px;
-        }
-
-        .welcome-section h1 {
-            margin: 0 0 8px 0;
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-        }
-
-        .welcome-section p {
-            margin: 0;
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        /* BENTO GRID */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(2, 200px);
-            gap: 16px;
-        }
-
-        .card {
-            border-radius: 20px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Tarjeta Principal Saldo */
-        .card-main {
-            grid-column: span 2;
-            grid-row: span 2;
-            background: var(--primary);
-            color: white;
-            border: none;
-            justify-content: space-between;
-        }
-
-        .card-main .bg-icon {
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-size: 180px;
-            opacity: 0.15;
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            width: fit-content;
-        }
-
-        .balance-amount {
-            font-size: 3rem;
-            font-weight: 800;
-            margin: 16px 0 8px 0;
-            letter-spacing: -0.04em;
-        }
-
-        .btn-withdraw {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 14px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: fit-content;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        /* Tarjeta Convenios */
-        .card-partners {
-            grid-column: span 2;
-            background: white;
-            justify-content: space-between;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .icon-box {
-            background: #eff6ff;
-            color: var(--primary);
-            padding: 8px;
-            border-radius: 10px;
-        }
-
-        /* Tarjetas pequeñas */
-        .card-small {
-            grid-column: span 1;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .card-dark {
-            grid-column: span 1;
-            background: #0f172a;
-            color: white;
-            justify-content: center;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #1e293b;
-            border-radius: 10px;
-            margin-top: 12px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 75%;
-        }
-
-        /* LISTA DE VENCIMIENTOS */
-        .expirations {
-            margin-top: 40px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border);
-        }
-
-        .expiration-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
-        }
-
-        .item-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .icon-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        footer {
-            padding: 32px;
-            text-align: center;
-            background: #f8fafc;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-        }
-
-        /* RESPONSIVO */
-        @media (max-width: 768px) {
-            .bento-grid {
-                display: flex;
-                flex-direction: column;
-            }
-            .card {
-                min-height: 180px;
-            }
-        }
+<!doctype html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+>
+  <head>
+    <title></title>
+    <!--[if !mso]><!-- -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style type="text/css">
+      #outlook a {
+        padding: 0;
+      }
+      .ReadMsgBody {
+        width: 100%;
+      }
+      .ExternalClass {
+        width: 100%;
+      }
+      .ExternalClass * {
+        line-height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      table,
+      td {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+      }
+      img {
+        border: 0;
+        height: auto;
+        line-height: 100%;
+        outline: none;
+        text-decoration: none;
+        -ms-interpolation-mode: bicubic;
+      }
+      p {
+        display: block;
+        margin: 13px 0;
+      }
     </style>
-</head>
-<body>
+    <!--[if !mso]><!-->
+    <style type="text/css">
+      @media only screen and (max-width: 480px) {
+        @-ms-viewport {
+          width: 320px;
+        }
+        @viewport {
+          width: 320px;
+        }
+      }
+    </style>
+    <!--<![endif]-->
+    <!--[if mso]>
+      <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG />
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+      </xml>
+    <![endif]-->
+    <!--[if lte mso 11]>
+      <style type="text/css">
+        .outlook-group-fix {
+          width: 100% !important;
+        }
+      </style>
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Droid+Sans:300,400,500,700);
+      @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+      @media only screen and (min-width: 480px) {
+        .mj-column-per-100 {
+          width: 100% !important;
+          max-width: 100%;
+        }
+      }
+    </style>
+    <style type="text/css"></style>
+  </head>
+  <body style="background-color: #f4f4f4">
 
-<div class="container">
-    <header>
-        <div class="logo-area">
-            <div class="logo-icon">
-                <span class="material-symbols-outlined">account_balance_wallet</span>
-            </div>
-            <span class="logo-text">Corporate Rewards</span>
-        </div>
-        <img src="https://ui-avatars.com/api/?name=User&background=135bec&color=fff" class="profile-img" alt="User">
-    </header>
-
-    <main>
-        <section class="welcome-section">
-            <h1>Hola, <?= nombreAsociado ?></h1>
-            <p>Tu resumen de beneficios corporativos.</p>
-        </section>
-
-        <div class="bento-grid">
-            <div class="card card-main">
-                <span class="material-symbols-outlined bg-icon">payments</span>
-                <div>
-                    <div class="tag">Cartera Actual</div>
-                    <div class="balance-amount">$<?= saldoActual ?></div>
-                    <div style="display: flex; align-items: center; gap: 4px; font-size: 0.9rem; opacity: 0.9;">
-                        <span class="material-symbols-outlined" style="font-size: 1rem;">trending_up</span>
-                        +12% este mes
-                    </div>
+    <div style="background-color: #f4f4f4">
+      <!-- Header Section --><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div
+        style="
+          background: #ffffff;
+          background-color: #ffffff;
+          margin: 0px auto;
+          max-width: 600px;
+        "
+      >
+        <table
+          align="center"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          role="presentation"
+          style="background: #ffffff; background-color: #ffffff; width: 100%"
+        >
+          <tbody>
+            <tr>
+              <td
+                style="
+                  border: none;
+                  direction: ltr;
+                  font-size: 0px;
+                  padding: 40px 25px 20px 25px;
+                  text-align: center;
+                  vertical-align: top;
+                "
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:550px;" ><![endif]-->
+                <div
+                  class="mj-column-per-100 outlook-group-fix"
+                  style="
+                    font-size: 13px;
+                    text-align: left;
+                    direction: ltr;
+                    display: inline-block;
+                    vertical-align: top;
+                    width: 100%;
+                  "
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    role="presentation"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="
+                            border: none;
+                            vertical-align: top;
+                            padding: 0px 0px 0px 0px;
+                          "
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            role="presentation"
+                            width="100%"
+                          >
+                            <tr>
+                              <td
+                                align="center"
+                                style="
+                                  font-size: 0px;
+                                  padding: 0px 0px 0px 0px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 28px;
+                                    font-weight: 800;
+                                    line-height: 1.2;
+                                    text-align: center;
+                                    color: #2c3e50;
+                                  "
+                                >
+                                  REPORTE DE BENEFICIOS DE <?= data.socio.nombre ?>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                align="left"
+                                style="
+                                  font-size: 0px;
+                                  padding: 30px 25px 10px 25px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 14px;
+                                    font-weight: 400;
+                                    line-height: 1.7;
+                                    text-align: left;
+                                    color: #000000;
+                                  "
+                                >
+                                  Hemos recibido tus datos correctamente,
+                                  gracias por diligenciar el formulario. A
+                                  continuación te contaremos como el fondo
+                                  estuvo presente durante tu <?= actualyear ?>.
+                                  <div><br /></div>
+                                  <div>
+                                    Verás como el fondo te ayudó a ahorrar a
+                                    través de los créditos y convenios que
+                                    pediste, además de los regalos que te dimos
+                                    solo por ser asociado de <?= entidad ?>.
+                                  </div>
+                                  <div><br /></div>
+                                  <div>
+                                    ¡Esperamos que sigas con nosotros otro año
+                                    más y que sigas disfrutando de todos los
+                                    beneficios que tenemos para ti!
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                align="center"
+                                style="
+                                  font-size: 0px;
+                                  padding: 30px 0px 0px 0px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 16px;
+                                    font-weight: bold;
+                                    line-height: 1.7;
+                                    text-align: center;
+                                    color: #f39c12;
+                                  "
+                                >
+                                  Periodo: <?= startBalance ?> hasta <?= endBalance ?>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                align="center"
+                                style="
+                                  font-size: 0px;
+                                  padding: 2px 0px 0px 0px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 14px;
+                                    font-weight: 400;
+                                    line-height: 1.7;
+                                    text-align: center;
+                                    color: #5c5c5c;
+                                  "
+                                >
+                                  Fecha del reporte: <?= actualDay ?>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <button class="btn-withdraw">
-                    Retirar Fondos
-                    <span class="material-symbols-outlined" style="font-size: 1.2rem;">arrow_forward</span>
-                </button>
-            </div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><!
+      [endif]--><!-- Distribución detallada Section --><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div
+        style="
+          background: #ffffff;
+          background-color: #ffffff;
+          margin: 0px auto;
+          max-width: 600px;
+        "
+      >
+        <? if (data.socio.total <= 0) { ?>
+          <div
+            style="
+              font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                &quot;Segoe UI&quot;,
+                &quot;Roboto&quot;,
+                &quot;Oxygen&quot;,
+                &quot;Ubuntu&quot;,
+                &quot;Cantarell&quot;,
+                &quot;Fira Sans&quot;,
+                &quot;Droid Sans&quot;,
+                &quot;Helvetica Neue&quot;,
+                sans-serif;
+              font-size: 18px;
+              font-weight: 800;
+              line-height: 1.7;
+              text-align: left;
+              color: #ffffff;
+            "
+          >
+            No hay beneficios individuales...
+          </div>
+        <? } ?>
+        <? if (data.socio.total > 0) { ?>
+          <table
+            align="center"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            role="presentation"
+            style="background: #ffffff; background-color: #ffffff; width: 100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="
+                    border: none;
+                    direction: ltr;
+                    font-size: 0px;
+                    padding: 20px 25px 20px 25px;
+                    text-align: center;
+                    vertical-align: top;
+                  "
+                >
+                  <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:550px;" ><![endif]-->
+                  <div
+                    class="mj-column-per-100 outlook-group-fix"
+                    style="
+                      font-size: 13px;
+                      text-align: left;
+                      direction: ltr;
+                      display: inline-block;
+                      vertical-align: top;
+                      width: 100%;
+                    "
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      role="presentation"
+                      width="100%"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="
+                              background-color: #ffffff;
+                              border: none;
+                              border-radius: 0px;
+                              vertical-align: top;
+                              padding: 0px 0px 0px 0px;
+                            "
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              role="presentation"
+                              width="100%"
+                            >
+                              <!-- Título en contenedor azul con border-radius 30px -->
+                              <tr>
+                                <td
+                                  vertical-align="top"
+                                  style="
+                                    font-size: 0px;
+                                    padding: 8px 25px 15px 25px;
+                                    word-break: break-word;
+                                  "
+                                >
+                                  <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:550px;" width="550" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+                                  <div
+                                    style="
+                                      background: #2980b9;
+                                      background-color: #2980b9;
+                                      margin: 0px auto;
+                                      border-radius: 10px;
+                                      max-width: 550px;
+                                    "
+                                  >
+                                    <table
+                                      align="center"
+                                      border="0"
+                                      cellpadding="0"
+                                      cellspacing="0"
+                                      role="presentation"
+                                      style="
+                                        background: #2980b9;
+                                        background-color: #2980b9;
+                                        width: 100%;
+                                        border-radius: 10px;
+                                      "
+                                    >
+                                      <tbody>
+                                        <tr>
+                                          <td
+                                            style="
+                                              border: none;
+                                              direction: ltr;
+                                              font-size: 0px;
+                                              padding: 8px 25px 15px 25px;
+                                              text-align: center;
+                                              vertical-align: top;
+                                            "
+                                          >
+                                            <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:500px;" ><![endif]-->
+                                            <div
+                                              class="mj-column-per-100 outlook-group-fix"
+                                              style="
+                                                font-size: 13px;
+                                                text-align: left;
+                                                direction: ltr;
+                                                display: inline-block;
+                                                vertical-align: top;
+                                                width: 100%;
+                                              "
+                                            >
+                                              <table
+                                                border="0"
+                                                cellpadding="0"
+                                                cellspacing="0"
+                                                role="presentation"
+                                                width="100%"
+                                              >
+                                                <tbody>
+                                                  <tr>
+                                                    <td
+                                                      style="
+                                                        border: none;
+                                                        vertical-align: top;
+                                                        padding: 0px 0px 0px 0px;
+                                                      "
+                                                    >
+                                                      <table
+                                                        border="0"
+                                                        cellpadding="0"
+                                                        cellspacing="0"
+                                                        role="presentation"
+                                                        width="100%"
+                                                      >
+                                                        <tr>
+                                                          <td
+                                                            align="left"
+                                                            style="
+                                                              font-size: 0px;
+                                                              padding: 0px 0px 0px
+                                                                0px;
+                                                              word-break: break-word;
+                                                            "
+                                                          >
+                                                            <div
+                                                              style="
+                                                                font-family:
+                                                                  -apple-system,
+                                                                  BlinkMacSystemFont,
+                                                                  &quot;Segoe UI&quot;,
+                                                                  &quot;Roboto&quot;,
+                                                                  &quot;Oxygen&quot;,
+                                                                  &quot;Ubuntu&quot;,
+                                                                  &quot;Cantarell&quot;,
+                                                                  &quot;Fira Sans&quot;,
+                                                                  &quot;Droid Sans&quot;,
+                                                                  &quot;Helvetica Neue&quot;,
+                                                                  sans-serif;
+                                                                font-size: 18px;
+                                                                font-weight: 800;
+                                                                line-height: 1.7;
+                                                                text-align: left;
+                                                                color: #ffffff;
+                                                              "
+                                                            >
+                                                              Distribución
+                                                              detallada
+                                                            </div>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                            <!--[if mso | IE]></td></tr></table><![endif]-->
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <!--[if mso | IE]></td></tr></table><![endif]-->
+                                </td>
+                              </tr>
+                              <!-- Tabla con nuevos datos -->
+                              <tr>
+                                <td
+                                  align="left"
+                                  class="table-body"
+                                  style="
+                                    font-size: 0px;
+                                    padding: 10px 25px;
+                                    word-break: break-word;
+                                  "
+                                >
+                                  <table
+                                    cellpadding="0"
+                                    cellspacing="0"
+                                    width="100%"
+                                    border="0"
+                                    style="
+                                      cellspacing: 0;
+                                      color: #2c3e50;
+                                      font-family:
+                                        -apple-system, BlinkMacSystemFont,
+                                        &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                        &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                        &quot;Cantarell&quot;,
+                                        &quot;Fira Sans&quot;,
+                                        &quot;Droid Sans&quot;,
+                                        &quot;Helvetica Neue&quot;, sans-serif;
+                                      font-size: 13px;
+                                      line-height: 22px;
+                                      table-layout: auto;
+                                      width: 100%;
+                                    "
+                                  >
+                                    <tr style="background-color: #2980b9">
+                                      <th
+                                        style="
+                                          padding: 15px 10px;
+                                          color: #ffffff;
+                                          font-weight: bold;
+                                          text-align: left;
+                                        "
+                                      >
+                                        Categoría
+                                      </th>
+                                      <th
+                                        style="
+                                          padding: 15px 10px;
+                                          color: #ffffff;
+                                          font-weight: bold;
+                                          text-align: right;
+                                        "
+                                      >
+                                        Monto (COP)
+                                      </th>
+                                      <th
+                                        style="
+                                          padding: 15px 10px;
+                                          color: #ffffff;
+                                          font-weight: bold;
+                                          text-align: left;
+                                        "
+                                      >
+                                        Detalles
+                                      </th>
+                                    </tr>
+                                    <? if (data.socio.ben_car) { ?>
+                                      <? if (data.socio.ben_car > 0) { ?>
+                                        <tr style="border-bottom: 1px solid #2980b9">
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            Créditos
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              text-align: right;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            <?= formmatedData.socio.ben_car ?>
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            Menor valor pagado en intereses de
+                                            créditos
+                                          </td>
+                                        </tr>
+                                      <? } ?>
+                                    <? } ?>
+                                    <? if (data.socio.ben_con) { ?>
+                                      <? if (data.socio.ben_con > 0) { ?>
+                                        <tr style="border-bottom: 1px solid #2980b9">
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            Convenios
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              text-align: right;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            <?= formmatedData.socio.ben_con ?>
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              border-bottom: 1px solid #2980b9;
+                                            "
+                                          >
+                                            Descuento por compras del portafolio de
+                                            convenios
+                                          </td>
+                                        </tr>
+                                      <? } ?>
+                                    <? } ?>
+                                    <? if (data.socio.ben_obs) { ?>
+                                      <? if (data.socio.ben_obs > 0) { ?>
+                                        <tr style="border-bottom: 1px solid #2980b9">
+                                          <td style="padding: 12px 10px">
+                                            Obsequios
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              text-align: right;
+                                            "
+                                          >
+                                            <?= formmatedData.socio.ben_obs ?>
+                                          </td>
+                                          <td style="padding: 12px 10px">
+                                            Regalos entregados directamente
+                                          </td>
+                                        </tr>
+                                      <? } ?>
+                                    <? } ?>
+                                    <? if (data.socio.ben_fin) { ?>
+                                      <? if (data.socio.ben_fin) { ?>
+                                        <tr style="border-bottom: 1px solid #2980b9">
+                                          <td style="padding: 12px 10px">
+                                            Bono fin de año
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              text-align: right;
+                                            "
+                                          >
+                                            <?= formmatedData.socio.ben_fin ?>
+                                          </td>
+                                          <td style="padding: 12px 10px">
+                                            obsequio de fin de año
+                                          </td>
+                                        </tr>
+                                      <? } ?>
+                                    <? } ?>
+                                    <? if (data.socio.ben_aho) { ?>
+                                      <? if (data.socio.ben_aho) { ?>
+                                        <tr style="border-bottom: 1px solid #2980b9">
+                                          <td style="padding: 12px 10px">
+                                            Ahorros
+                                          </td>
+                                          <td
+                                            style="
+                                              padding: 12px 10px;
+                                              text-align: right;
+                                            "
+                                          >
+                                            <?= formmatedData.socio.ben_aho ?>
+                                          </td>
+                                          <td style="padding: 12px 10px">
+                                            Beneficio de ahorros
+                                          </td>
+                                        </tr>
+                                      <? } ?>
+                                    <? } ?>
+                                    <? if (data.socio.total) { ?>
+                                      <tr>
+                                        <td style="padding: 12px 10px">
+                                          
+                                        </td>
+                                        <td
+                                          style="
+                                            padding: 12px 10px;
+                                            text-align: right;
+                                          "
+                                        >
+                                          <strong>
+                                            <?= formmatedData.socio.total ?>
+                                          </strong>
+                                        </td>
+                                        <td style="padding: 12px 10px">
+                                          <strong>
+                                            Total
+                                          </strong>
+                                        </td>
+                                      </tr>
+                                    <? } ?>
+                                    
+                                  </table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--[if mso | IE]></td></tr></table><![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <? } ?>  
+      </div>
+      <!--[if mso | IE]></td></tr></table><!
+      [endif]--><!-- Notas importantes Section --><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div
+        style="
+          background: #ffffff;
+          background-color: #ffffff;
+          margin: 0px auto;
+          max-width: 600px;
+        "
+      >
+        <table
+          align="center"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          role="presentation"
+          style="background: #ffffff; background-color: #ffffff; width: 100%"
+        >
+          <tbody>
+            <tr>
+              <td
+                style="
+                  border: none;
+                  direction: ltr;
+                  font-size: 0px;
+                  padding: 0px 25px 40px 25px;
+                  text-align: center;
+                  vertical-align: top;
+                "
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:550px;" ><![endif]-->
+                <div
+                  class="mj-column-per-100 outlook-group-fix"
+                  style="
+                    font-size: 13px;
+                    text-align: left;
+                    direction: ltr;
+                    display: inline-block;
+                    vertical-align: top;
+                    width: 100%;
+                  "
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    role="presentation"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="
+                            background-color: #f9f9f9;
+                            border: none;
+                            border-radius: 15px;
+                            vertical-align: top;
+                            padding: 20px 20px 20px 20px;
+                          "
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            role="presentation"
+                            width="100%"
+                          >
+                            <tr>
+                              <td
+                                align="left"
+                                style="
+                                  font-size: 0px;
+                                  padding: 10px 25px 10px 25px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 16px;
+                                    font-weight: bold;
+                                    line-height: 1.7;
+                                    text-align: left;
+                                    color: #000000;
+                                  "
+                                >
+                                  Notas importantes:
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                align="left"
+                                style="
+                                  font-size: 0px;
+                                  padding: 10px 25px 10px 25px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 14px;
+                                    font-weight: 400;
+                                    line-height: 1.7;
+                                    text-align: left;
+                                    color: #2c3e50;
+                                  "
+                                >
+                                <? if (data.fondo.tasaCreditosEAFondo > 0) { ?>
+                                  • Tasa promedio <?= entidad ?>  <?= lastYear ?> &nbsp;<strong
+                                    style="color: #f39c12"
+                                    > <?= formmatedData.fondo.tasaCreditosEAFondo ?> &nbsp;</strong
+                                  >versus tasa promedio mercado&nbsp; 
+                                  <strong
+                                      style="
+                                        word-spacing: normal;
+                                        --hover-color: rgb(41, 113, 207);
+                                        --selected-color: rgb(90, 170, 251);
+                                        color: rgb(243, 156, 18);
+                                      "
+                                      ><?= formmatedData.fondo.tasaCreditosEAMercado ?></strong>.
 
-            <div class="card card-partners">
-                <div class="card-header">
-                    <div>
-                        <div style="font-weight: 700; font-size: 1.1rem;">Convenios</div>
-                        <div style="color: var(--text-muted); font-size: 0.8rem;">50+ marcas aliadas</div>
-                    </div>
-                    <div class="icon-box">
-                        <span class="material-symbols-outlined">handshake</span>
-                    </div>
+                                  <!-- <div>
+                                    • Bonos e incentivo cierre fin de año,
+                                    premio a la perseverancia hasta&nbsp;<strong
+                                      style="
+                                        word-spacing: normal;
+                                        --hover-color: rgb(41, 113, 207);
+                                        --selected-color: rgb(90, 170, 251);
+                                        color: rgb(243, 156, 18);
+                                      "
+                                      >4500$</strong
+                                    >
+                                  </div> -->
+
+                                <? } ?>
+                                  <div>
+                                  <? if (data.fondo.totalFondoObsequios > 0) { ?>
+
+                                    • Obsequios: Regalos a asociados y familias
+                                    en fechas especiales mas de&nbsp;<strong
+                                      style="
+                                        --hover-color: rgb(41, 113, 207);
+                                        --selected-color: rgb(90, 170, 251);
+                                        color: rgb(243, 156, 18);
+                                      "
+                                      > <?= formmatedData.fondo.totalFondoObsequios ?> </strong
+                                    ><br />
+                                  <? } ?>
+                                  
+                                  <? if (data.fondo.tasaConveniosFondo > 0){ ?>
+                                    • Descuento en portafolio de
+                                    convenios <?= entidad ?>&nbsp;<strong
+                                      style="color: #f39c12"
+                                      ><?= formmatedData.fondo.tasaConveniosFondo ?>&nbsp;</strong
+                                    ><span style="word-spacing: normal"
+                                      >frente a&nbsp; mercado del&nbsp;</span
+                                    ><strong
+                                      style="
+                                        word-spacing: normal;
+                                        --hover-color: rgb(41, 113, 207);
+                                        --selected-color: rgb(90, 170, 251);
+                                        color: rgb(243, 156, 18);
+                                      "
+                                      > <?= formmatedData.fondo.tasaConveniosMercado ?> </strong
+                                    >
+                                  <? } ?>  
+
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td
+                                align="center"
+                                style="
+                                  font-size: 0px;
+                                  padding: 15px 25px 10px 25px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 14px;
+                                    font-weight: 800;
+                                    line-height: 1.7;
+                                    text-align: center;
+                                    color: #2980b9;
+                                  "
+                                >
+                                  ¡EN EL <?= lastYear ?> <?= entidad ?> ENTREGÓ <?= formmatedData.fondo.totalFondoObsequios ?> EN
+                                  OBSEQUIOS!
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    <div style="font-size: 1.2rem;">🛍️ 🍕 ✈️</div>
-                    <div style="color: var(--primary); font-weight: 700; font-size: 0.8rem;">+47 más</div>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><!
+      [endif]--><!-- Footer Section --><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+      <div style="margin: 0px auto; max-width: 600px">
+        <table
+          align="center"
+          border="0"
+          cellpadding="0"
+          cellspacing="0"
+          role="presentation"
+          style="width: 100%"
+        >
+          <tbody>
+            <tr>
+              <td
+                style="
+                  border: none;
+                  direction: ltr;
+                  font-size: 0px;
+                  padding: 20px 20px 20px 20px;
+                  text-align: center;
+                  vertical-align: top;
+                "
+              >
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:560px;" ><![endif]-->
+                <div
+                  class="mj-column-per-100 outlook-group-fix"
+                  style="
+                    font-size: 13px;
+                    text-align: left;
+                    direction: ltr;
+                    display: inline-block;
+                    vertical-align: top;
+                    width: 100%;
+                  "
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    role="presentation"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="
+                            border: none;
+                            vertical-align: top;
+                            padding: 0px 0px 0px 0px;
+                          "
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            role="presentation"
+                            width="100%"
+                          >
+                            <tr>
+                              <td
+                                align="center"
+                                style="
+                                  font-size: 0px;
+                                  padding: 10px 25px 10px 25px;
+                                  word-break: break-word;
+                                "
+                              >
+                                <div
+                                  style="
+                                    font-family:
+                                      -apple-system, BlinkMacSystemFont,
+                                      &quot;Segoe UI&quot;, &quot;Roboto&quot;,
+                                      &quot;Oxygen&quot;, &quot;Ubuntu&quot;,
+                                      &quot;Cantarell&quot;,
+                                      &quot;Fira Sans&quot;,
+                                      &quot;Droid Sans&quot;,
+                                      &quot;Helvetica Neue&quot;, sans-serif;
+                                    font-size: 12px;
+                                    font-weight: 400;
+                                    line-height: 1.7;
+                                    text-align: center;
+                                    color: #7f8c8d;
+                                  "
+                                >
+                                  <?= paginaWeb ?> | © <?= actualyear ?> Tu Fondo SAS
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-            </div>
-
-            <div class="card card-small">
-                <div style="background: #fff7ed; color: #ea580c; padding: 12px; border-radius: 50%; margin-bottom: 8px;">
-                    <span class="material-symbols-outlined">featured_seasonal_and_gifts</span>
-                </div>
-                <div style="font-weight: 700;">Obsequios</div>
-                <div style="color: var(--primary); font-weight: 800;">2 Disponibles</div>
-            </div>
-
-            <div class="card card-dark">
-                <div style="font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Puntos Totales</div>
-                <div style="font-size: 1.8rem; font-weight: 800; margin: 4px 0;">4,800 <span style="font-size: 0.8rem; color: var(--primary);">pts</span></div>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-            </div>
-        </div>
-
-        <section class="expirations">
-            <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;">Próximos Vencimientos</h2>
-            <div class="expiration-item">
-                <div class="item-info">
-                    <div class="icon-circle" style="background: #fef2f2; color: #dc2626;">
-                        <span class="material-symbols-outlined">schedule</span>
-                    </div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Bono de Bienvenida</div>
-                        <div style="color: var(--text-muted); font-size: 0.75rem;">Expira en 3 días</div>
-                    </div>
-                </div>
-                <div style="font-weight: 800;">$50.00</div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        © 2026 CORPORATE REWARDS INC.
-    </footer>
-</div>
-
-</body>
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso | IE]></td></tr></table><![endif]-->
+    </div>
+  </body>
 </html>
